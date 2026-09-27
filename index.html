@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A collection of notes, guides, and projects by serial-comma.">
+  <title>serial-comma · Links</title>
+  <style>
+    :root {
+      --bg: #f5f5f1;
+      --surface: #ffffff;
+      --text: #1d1f1e;
+      --muted: #5f625f;
+      --border: #dfe0da;
+      --accent: #0f7a5c;
+      --accent-bg: #e1f3ea;
+      --shadow: 0 12px 30px rgb(25 35 30 / 8%);
+      color-scheme: light;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #181a19;
+        --surface: #222523;
+        --text: #e9ebe6;
+        --muted: #a3a7a1;
+        --border: #363a37;
+        --accent: #4cc79a;
+        --accent-bg: #16362a;
+        --shadow: 0 12px 30px rgb(0 0 0 / 20%);
+        color-scheme: dark;
+      }
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background:
+        radial-gradient(circle at 50% 0, var(--accent-bg), transparent 38rem),
+        var(--bg);
+      color: var(--text);
+      font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+
+    main {
+      width: min(720px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 72px 0 56px;
+    }
+
+    header { margin-bottom: 32px; }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 8vw, 52px);
+      font-weight: 700;
+      letter-spacing: -.035em;
+      line-height: 1.08;
+    }
+
+    .intro {
+      max-width: 580px;
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .links {
+      display: grid;
+      gap: 14px;
+    }
+
+    .link-card {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--surface);
+      color: var(--text);
+      text-decoration: none;
+      box-shadow: var(--shadow);
+      transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease;
+    }
+
+    .link-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 16px 36px rgb(25 35 30 / 12%);
+    }
+
+    .link-card:focus-visible {
+      outline: 3px solid var(--accent-bg);
+      outline-offset: 3px;
+      border-color: var(--accent);
+    }
+
+    .icon {
+      display: grid;
+      width: 48px;
+      height: 48px;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--accent-bg);
+      color: var(--accent);
+    }
+
+    .icon svg { width: 25px; height: 25px; }
+
+    .card-title {
+      display: block;
+      margin-bottom: 2px;
+      font-size: 18px;
+      font-weight: 680;
+      line-height: 1.3;
+    }
+
+    .card-description {
+      display: block;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .arrow {
+      color: var(--accent);
+      transition: transform .15s ease;
+    }
+
+    .link-card:hover .arrow { transform: translateX(3px); }
+    .arrow svg { display: block; width: 22px; height: 22px; }
+
+    footer {
+      margin-top: 36px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 520px) {
+      main { padding-top: 48px; }
+      .link-card { gap: 13px; padding: 16px; }
+      .icon { width: 42px; height: 42px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .link-card, .arrow { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">serial-comma</p>
+      <h1>Notes &amp; projects</h1>
+      <p class="intro">A small collection of guides, references, and things I am working on.</p>
+    </header>
+
+    <nav class="links" aria-label="Pages">
+      <a class="link-card" href="eg1311/">
+        <span class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 3v4m10-4v4M5 9h14M8 13h2m4 0h2m-8 4h2m4 0h2"/>
+            <rect x="3" y="5" width="18" height="16" rx="3"/>
+          </svg>
+        </span>
+        <span>
+          <span class="card-title">EG1311 Final Wiring</span>
+          <span class="card-description">Wiring diagrams, test points, and Arduino code for the 4-wheel and tricycle layouts.</span>
+        </span>
+        <span class="arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m9 18 6-6-6-6"/>
+          </svg>
+        </span>
+      </a>
+    </nav>
+
+    <footer>More pages will appear here as they are added.</footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EG1311 Final Wiring</title>
+<style>
+:root{
+  --bg:#f5f5f1; --surface:#ffffff; --text:#1d1f1e; --muted:#5f625f; --border:#dfe0da;
+  --accent:#0f7a5c; --accent-bg:#e1f3ea; --danger:#c22b43; --danger-bg:#fbe6e9;
+  --button-text:#ffffff; --accent-hover:#0b644b;
+  --chanA:#b45309; --chanA-bg:#fdf0e1; --chanB:#6d28d9; --chanB-bg:#efe8fc;
+  --chip:#ecede7; --code:#eeeee8; --scene:#fdfcf8;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#181a19; --surface:#222523; --text:#e9ebe6; --muted:#a3a7a1; --border:#363a37;
+    --accent:#4cc79a; --accent-bg:#16362a; --danger:#f0667f; --danger-bg:#3d1c22;
+    --button-text:#10251d; --accent-hover:#68d8ae;
+    --chanA:#f0a55a; --chanA-bg:#3a2a18; --chanB:#b99af5; --chanB-bg:#2c2340;
+    --chip:#2d302d; --code:#2a2d2a; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#181a19; --surface:#222523; --text:#e9ebe6; --muted:#a3a7a1; --border:#363a37;
+  --accent:#4cc79a; --accent-bg:#16362a; --danger:#f0667f; --danger-bg:#3d1c22;
+  --button-text:#10251d; --accent-hover:#68d8ae;
+  --chanA:#f0a55a; --chanA-bg:#3a2a18; --chanB:#b99af5; --chanB-bg:#2c2340;
+  --chip:#2d302d; --code:#2a2d2a; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:1000px;margin:0 auto;padding:32px 16px 64px}
+h1{font-size:30px;line-height:1.2;margin:0 0 8px;font-weight:650;letter-spacing:-.01em;text-wrap:balance}
+h2{font-size:22px;margin:0 0 6px;font-weight:630;text-wrap:balance}
+h3{font-size:16px;margin:16px 0 6px;font-weight:620}
+p{margin:0 0 12px}
+.lede{color:var(--muted);max-width:720px}
+.download-button{display:inline-flex;align-items:center;gap:10px;margin:8px 0 4px;padding:12px 20px;border-radius:10px;background:var(--accent);color:var(--button-text);font-size:17px;font-weight:650;line-height:1.2;text-decoration:none;box-shadow:0 2px 5px rgb(0 0 0 / .14);transition:background-color .15s ease,transform .15s ease,box-shadow .15s ease}
+.download-button svg{width:21px;height:21px;flex:none}
+.download-button:hover{background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 4px 9px rgb(0 0 0 / .18)}
+.download-button:focus-visible{outline:3px solid var(--accent-bg);outline-offset:3px}
+.download-button:active{transform:translateY(0);box-shadow:0 1px 3px rgb(0 0 0 / .14)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:24px 0}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.stat .k{font-size:13px;color:var(--muted)}
+.stat .v{font-size:20px;font-weight:650;margin-top:2px;font-variant-numeric:tabular-nums}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin:20px 0}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.scene{background:var(--scene);border:1px solid var(--border);border-radius:10px;margin:14px 0 12px;overflow-x:auto}
+.scene svg{display:block;width:100%;height:auto;min-width:560px}
+.split{display:grid;grid-template-columns:260px 1fr;gap:20px;align-items:start}
+.split .scene svg{min-width:0}
+@media (max-width:720px){.split{grid-template-columns:1fr}}
+.mission{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0 4px}
+@media (max-width:720px){.mission{grid-template-columns:1fr 1fr}}
+.mstep{border:1px solid var(--border);border-radius:10px;padding:12px;background:var(--bg)}
+.mstep b{display:block;font-size:15px}
+.mstep span{font-size:14px;color:var(--muted)}
+.mstep .n{display:inline-flex;width:24px;height:24px;border-radius:12px;align-items:center;justify-content:center;background:var(--accent-bg);color:var(--accent);font-weight:650;font-size:13px;margin-bottom:6px}
+.pill{display:inline-block;font-size:13px;border-radius:999px;padding:1px 10px;font-weight:600}
+.pill.a{background:var(--chanA-bg);color:var(--chanA)}
+.pill.b{background:var(--chanB-bg);color:var(--chanB)}
+.pill.new{background:var(--accent-bg);color:var(--accent)}
+ul{margin:4px 0 8px;padding-left:22px}
+li{margin:3px 0}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;background:var(--code);padding:1px 5px;border-radius:5px}
+table{width:100%;border-collapse:collapse;font-size:15px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+th{font-weight:620;color:var(--muted);font-size:13px}
+.tablewrap{overflow-x:auto}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:14px;color:var(--muted);margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.sw{display:inline-block;width:28px;height:0;border-top:4px solid}
+.note{border-left:3px solid var(--accent);padding:4px 0 4px 12px;color:var(--muted);margin:10px 0}
+.warn{border-left-color:var(--danger)}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 0}
+.toc a{font-size:14px;color:var(--text);text-decoration:none;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:4px 12px}
+.toc a:hover,.toc a:focus-visible{border-color:var(--accent);outline:none}
+footer{color:var(--muted);font-size:14px;margin-top:28px}
+@media (max-width:600px){h1{font-size:25px}.card{padding:16px}}
+</style>
+</head>
+
+<body>
+
+<main>
+<p class="eyebrow">EG1311 Design and Make · final build</p>
+<h1>Final wiring: 4-wheel and tricycle</h1>
+<p class="lede">This is the wiring for both drive layouts, drawn in the same style as the conversion guide. The robot never turns: it drives straight to the wall, throws the ball, then reverses straight back. The 9V battery connects straight to <b>Vin</b> with jumpers because the board has no barrel jack. Only the motor leads differ between the two layouts.</p>
+<a class="download-button" href="eg1311_final.ino" download>
+  <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/>
+  </svg>
+  Download code
+</a>
+
+<div class="stats">
+  <div class="stat"><div class="k">Jumpers (both layouts)</div><div class="v">9 + 4 links</div></div>
+  <div class="stat"><div class="k">Arduino power</div><div class="v">9V → Vin, GND</div></div>
+  <div class="stat"><div class="k">Motor power</div><div class="v">6×AA → L293D pin 8</div></div>
+  <div class="stat"><div class="k">Drive pattern</div><div class="v">Forward / reverse only</div></div>
+</div>
+
+<nav class="toc" aria-label="Sections">
+  <a href="#mission">Run sequence</a><a href="#fourwd">4-wheel</a><a href="#tri">Tricycle</a><a href="#diff">What differs</a><a href="#tp">Test points</a><a href="#pins">Pin table</a><a href="#vin">9V into Vin</a><a href="#why">Why keep 4 signal wires</a><a href="#code">Code changes</a>
+</nav>
+
+<section class="card" id="mission">
+  <h2>Run sequence</h2>
+  <p>Both motor channels always turn the same way. Each side has its own PWM pin for a trim value, which keeps the robot straight without steering.</p>
+  <div class="mission">
+    <div class="mstep"><div class="n">1</div><b>Drive forward</b><span>Both channels forward at the same trimmed speed, over the bump and up the ramp.</span></div>
+    <div class="mstep"><div class="n">2</div><b>Stop at the wall</b><span>The HC-SR04 reading reaches <code>STOP_CM</code>, then the motors brake.</span></div>
+    <div class="mstep"><div class="n">3</div><b>Throw</b><span>The servo on D9 swings the arm, then returns to rest.</span></div>
+    <div class="mstep"><div class="n">4</div><b>Reverse straight back</b><span>Both channels reverse for <code>REVERSE_MS</code> to get back behind the bump.</span></div>
+  </div>
+</section>
+
+<div class="legend" aria-label="Wire colours">
+  <span><i class="sw" style="border-color:#d33a2c"></i>+5 V / motor +</span>
+  <span><i class="sw" style="border-color:#2b2b2b"></i>GND / motor −</span>
+  <span><i class="sw" style="border-color:#d97706"></i>6×AA motor supply</span>
+  <span><i class="sw" style="border-color:#ee7a1a"></i>D5 left PWM</span>
+  <span><i class="sw" style="border-color:#d9a400"></i>D4 left DIR</span>
+  <span><i class="sw" style="border-color:#0f9c9a"></i>D6 right PWM</span>
+  <span><i class="sw" style="border-color:#7c4dcc"></i>D7 right DIR</span>
+  <span><i class="sw" style="border-color:#e07b00"></i>Servo signal</span>
+  <span><i style="display:inline-block;width:12px;height:12px;border:2px solid #1f9d55;border-radius:50%"></i>TP = test point (<a href="#tp" style="color:inherit">what to measure</a>)</span>
+</div>
+
+<section class="card" id="fourwd">
+  <p class="eyebrow">Layout A</p>
+  <h2>4-wheel drive</h2>
+  <div class="split">
+    <div>
+      <div class="scene" id="top4"></div>
+      <p style="font-size:14px;color:var(--muted)">Top view. <span class="pill a">Channel A</span> drives the left pair and <span class="pill b">Channel B</span> drives the right pair.</p>
+    </div>
+    <div>
+      <ul>
+        <li><b>Left pair (FL + RL):</b> both red leads go in the OUT1 row (pin 3) and both black leads in the OUT2 row (pin 6).</li>
+        <li><b>Right pair (FR + RR):</b> both red leads go in the OUT4 row (pin 14) and both black leads in the OUT3 row (pin 11).</li>
+        <li>Each channel carries two motors, so both channels share the load equally.</li>
+        <li>Trim starts at 0 on both sides. Only add trim if the drive test shows the robot pulling to one side.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="scene" id="schem4"></div>
+</section>
+
+<section class="card" id="tri">
+  <p class="eyebrow">Layout B</p>
+  <h2>Tricycle: one front wheel, two rear</h2>
+  <div class="split">
+    <div>
+      <div class="scene" id="top3"></div>
+      <p style="font-size:14px;color:var(--muted)">Top view. The front motor is the old front-right motor, moved to the centre. It stays on <span class="pill b">Channel B</span>.</p>
+    </div>
+    <div>
+      <ul>
+        <li><b>Rear-left (RL), on its own:</b> red lead in OUT1 (pin 3), black lead in OUT2 (pin 6).</li>
+        <li><b>Front (F) + rear-right (RR):</b> both red leads in OUT4 (pin 14), both black leads in OUT3 (pin 11).</li>
+        <li>If you flipped the front motor end-for-end when moving it to the centre, swap its two leads. Send <code>r</code> in debug mode: F and RR must both push forward.</li>
+        <li>Channel B carries two motors and channel A only one, so B's motors run slightly slower. That tends to pull the robot toward the right. Start with <code>R_TRIM ≈ +8</code> and adjust after the drive test.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="scene" id="schem3"></div>
+</section>
+
+<section class="card" id="diff">
+  <h2>What differs between the two layouts</h2>
+  <p>Everything above the motor rows is identical, so you can switch layouts by moving the motor leads alone.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Item</th><th>4-wheel</th><th>Tricycle</th></tr></thead>
+    <tbody>
+      <tr><td>OUT1 / OUT2 (pins 3, 6)</td><td>FL + RL</td><td>RL only</td></tr>
+      <tr><td>OUT4 / OUT3 (pins 14, 11)</td><td>FR + RR</td><td>F + RR</td></tr>
+      <tr><td>Motor leads in breadboard</td><td>8</td><td>6</td></tr>
+      <tr><td>Starting trim in code</td><td><code>L 0 / R 0</code></td><td><code>L 0 / R +8</code></td></tr>
+      <tr><td><code>STOP_CM</code> (sensor to wall)</td><td>Distance you want at the front bumper</td><td>Add about 8 cm: the front wheel sits about 80 mm ahead of the sensor</td></tr>
+      <tr><td>Signals, power, servo, sensor</td><td colspan="2">Identical</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="card" id="tp">
+  <h2>Test points (TP)</h2>
+  <p>The green <b>TP</b> circles mark a breadboard hole left free in each motor-output row, so you can push a multimeter probe in without unplugging anything. Put the meter on DC volts and probe <b>across a pair</b>: OUT1 and OUT2 for channel A, OUT4 and OUT3 for channel B. The reading is the voltage the motors on that channel actually get.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Debug command</th><th>Expected reading across the pair</th><th>If you get something else</th></tr></thead>
+    <tbody>
+      <tr><td><code>s</code> (stopped)</td><td>≈ 0 V</td><td>Not 0 V: a direction or speed pin is stuck, so check D4/D5 or D6/D7 are in the right rows.</td></tr>
+      <tr><td><code>l</code> / <code>r</code> (forward)</td><td>+5 to +7.5 V with fresh AAs. The L293D itself uses up about 1.5–2.5 V.</td><td>0 V: check the 6×AA reaches pin 8, the enable links on pins 1, 9 and 16, and the signal wires. Voltage present but a wheel doesn't turn: the problem is that motor, its leads or the wheel.</td></tr>
+      <tr><td><code>L</code> / <code>R</code> (reverse)</td><td>Same size, negative sign</td><td>Positive or 0 V: the direction pin (D4 or D7) isn't reaching IN2 or IN4.</td></tr>
+      <tr><td>Wheels loaded (robot on the floor or ramp)</td><td>Drops by less than 1 V</td><td>Big drop, or the reading collapses after a few seconds: the AAs are flat, or the chip is overheating and cutting out.</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">Comparing A and B at the same speed setting also tells you which side is weaker before you start adjusting trim.</p>
+</section>
+
+<section class="card" id="pins">
+  <h2>Pin table</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>From</th><th>To</th><th>Job</th></tr></thead>
+    <tbody>
+      <tr><td><code>D5</code></td><td>L293D pin 2 (IN1)</td><td><span class="pill a">A</span> speed (PWM)</td></tr>
+      <tr><td><code>D4</code></td><td>L293D pin 7 (IN2)</td><td><span class="pill a">A</span> direction</td></tr>
+      <tr><td><code>D6</code></td><td>L293D pin 10 (IN3)</td><td><span class="pill b">B</span> speed (PWM)</td></tr>
+      <tr><td><code>D7</code></td><td>L293D pin 15 (IN4)</td><td><span class="pill b">B</span> direction</td></tr>
+      <tr><td><code>D9</code></td><td>Servo orange</td><td>Throw arm</td></tr>
+      <tr><td><code>D11 / D12 / D13 / GND</code></td><td>HC-SR04 VCC / Trig / Echo / GND</td><td>Plugged straight into the header</td></tr>
+      <tr><td>Arduino <code>5V</code> / <code>GND</code></td><td>+5 V rail / GND rail</td><td>Logic supply for the L293D and servo</td></tr>
+      <tr><td>9V battery + / −</td><td>Arduino <code>Vin</code> / <code>GND</code></td><td><span class="pill new">Changed</span> No barrel jack</td></tr>
+      <tr><td>6×AA + / −</td><td>L293D pin 8 (VCC2) row / GND rail</td><td>Motor supply</td></tr>
+      <tr><td>Links</td><td>Pins 1, 9, 16 → +5 V; pin 13 → GND</td><td>Enables always on</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="card" id="vin">
+  <h2>Running the 9V into Vin</h2>
+  <p>Feeding Vin directly is fine electrically. The Uno's regulator accepts 7–12 V on Vin, the same as it would get through the barrel jack. There is one difference to watch.</p>
+  <div class="scene" id="vinsvg"></div>
+  <p class="note warn"><b>No reverse-polarity protection on Vin.</b> On an Uno, the barrel jack feeds Vin through a protection diode, and that diode is what saves the board if the battery goes on backwards. Wiring straight into Vin skips it. With the leads reversed, even for a second, the regulator can fail and take the board with it.</p>
+  <ul>
+    <li>Red to <code>Vin</code> and black to the <code>GND</code> next to it, every time. Mark the red jumper with a strip of tape.</li>
+    <li>Before plugging in, check the clip with a multimeter: +9 V on the lead going to Vin.</li>
+    <li>Optional insurance: put a 1N5819 Schottky diode in series with the red lead (band toward Vin). It costs about 0.3 V, which leaves roughly 8.7 V at Vin.</li>
+    <li>Crimp or solder the clip leads onto male jumper pins and tape them to the Arduino. A loose Vin wire on the bump resets the board mid-run.</li>
+    <li>Leaving USB plugged in while the 9V is connected is safe on an Uno, because the board switches between the two supplies automatically.</li>
+  </ul>
+</section>
+
+<section class="card" id="why">
+  <h2>Why keep four signal wires if the robot never turns?</h2>
+  <p>You could tie D4 to both IN2 and IN4 and use one direction pin. It saves one jumper, but it needs a link across the chip and makes debugging harder. The two PWM pins matter more. Two sides of cheap TT motors never spin at exactly the same speed, and with no steering the only way to hold a straight line is to slow the faster side slightly. In the tricycle, channel B also carries two motors to channel A's one. So the four-wire layout stays.</p>
+  <p class="note">Keep the L293D #2 spare. If the chip cuts out on the ramp (it gets hot and shuts down when overloaded), piggy-back #2 on top of #1 (solder its legs onto #1's) to double the current each channel can supply.</p>
+</section>
+
+<section class="card" id="code">
+  <h2>Code changes</h2>
+  <p>The pin map is unchanged, so the wiring works with the earlier sketch. The new sketch <code>eg1311_final.ino</code> adds:</p>
+  <ul>
+    <li><code>TRICYCLE</code> flag that picks the starting trim and the sensor stop offset.</li>
+    <li><code>L_TRIM</code> / <code>R_TRIM</code> applied inside <code>driveStraight()</code> for both forward and reverse.</li>
+    <li>The run sequence from the top of this page: forward, stop at <code>STOP_CM</code>, throw, reverse for <code>REVERSE_MS</code>.</li>
+    <li>A new debug command <code>t</code>: a 2-second straight run for tuning trim. Mark the start line with tape and measure the drift.</li>
+  </ul>
+</section>
+
+<footer>The pin map matches the conversion guide. Diagrams show a genuine Uno's power-header order (5V, GND, GND, Vin).</footer>
+</main>
+
+<script>
+(function(){
+const PAN='#fdfcf8';
+const K={org:'#ee7a1a',yel:'#d9a400',pur:'#7c4dcc',tea:'#0f9c9a',red:'#d33a2c',blk:'#2b2b2b',amb:'#d97706',srv:'#e07b00',grn:'#1f9d55',blu:'#2f6fd6'};
+const T=(x,y,t,o={})=>`<text x="${x}" y="${y}" font-size="${o.fs||11}" fill="${o.fill||'#3d3c38'}" text-anchor="${o.a||'start'}" font-family="system-ui,sans-serif" font-weight="${o.w||400}">${t}</text>`;
+const py1=i=>350+22*(i-1);
+const CX=490;
+
+function wire(pts,c,o={}){
+  const w=o.w||2.6, d='M'+pts.map(p=>p.join(' ')).join(' L');
+  let s=`<path d="${d}" fill="none" stroke="${PAN}" stroke-width="${w+5}" stroke-linejoin="round"/>`;
+  s+=`<path d="${d}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"/>`;
+  (o.dots||[]).forEach(([x,y])=>s+=`<circle cx="${x}" cy="${y}" r="4" fill="${c===K.red?K.red:(c===K.amb?K.amb:'#2b2b2b')}"/>`);
+  return s;
+}
+function chipSVG(y0){
+  const py=i=>y0+16+22*(i-1);
+  let s=`<rect x="${CX}" y="${y0}" width="80" height="182" rx="5" fill="#2b2b2b"/><path d="M${CX+30} ${y0} a10 10 0 0 0 20 0" fill="#555"/>`;
+  const Ln=['EN1','IN1','OUT1','GND','GND','OUT2','IN2','VCC2'], Rn=['VCC1','IN4','OUT4','GND','GND','OUT3','IN3','EN2'];
+  for(let i=1;i<=8;i++){const y=py(i);
+    s+=`<rect x="${CX-10}" y="${y-3}" width="10" height="6" fill="#9a9a9a"/><rect x="${CX+80}" y="${y-3}" width="10" height="6" fill="#9a9a9a"/>`;
+    s+=T(CX+5,y+4,Ln[i-1],{fs:9.5,fill:'#eee'})+T(CX+75,y+4,Rn[i-1],{a:'end',fs:9.5,fill:'#eee'});
+    s+=T(CX-12,y-5,String(i),{a:'end',fs:9,fill:'#8a887f'})+T(CX+92,y-5,String(17-i),{fs:9,fill:'#8a887f'});}
+  s+=T(530,y0+200,'L293D',{a:'middle',fs:12,fill:'#3d3c38',w:600});
+  return s;
+}
+const mot=(x,l,sub)=>`<rect x="${x-30}" y="860" width="60" height="50" rx="6" fill="#f2c230" stroke="#c99a12"/>`+T(x,886,l,{a:'middle',fs:13,fill:'#5a4500',w:700})+T(x,900,sub,{a:'middle',fs:8.5,fill:'#6b5600'})+T(x+22,872,'+',{a:'middle',fs:10,fill:'#a3281c',w:700})+T(x+22,906,'−',{a:'middle',fs:10,fill:'#333',w:700});
+
+function schem(cfg){
+  const tri=cfg==='tri';
+  let g='';
+  // breadboard + rails
+  g+=`<rect x="360" y="110" width="340" height="690" rx="8" fill="#f1efe7" stroke="#cfccc1"/><rect x="486" y="120" width="8" height="670" fill="#e2dfd4"/>`;
+  [[374,'#e05a4a','+'],[388,'#4a6fd6','−'],[672,'#4a6fd6','−'],[686,'#e05a4a','+']].forEach(([x,c,l])=>{g+=`<line x1="${x}" y1="124" x2="${x}" y2="788" stroke="${c}" stroke-width="1.6" opacity=".75"/>`+T(x,121,l,{a:'middle',fs:12,fill:c,w:700});});
+  g+=T(700,102,'Breadboard',{a:'end',fs:11,fill:'#6b6a64'});
+  // Arduino
+  g+=`<rect x="40" y="170" width="200" height="350" rx="8" fill="#1f5f9e"/><rect x="62" y="170" width="36" height="24" rx="2" fill="#2b2b2b"/>`;
+  const HP={GND:200,13:218,12:236,11:254,10:272,9:290,8:308,7:336,6:354,5:372,4:390,3:408,2:426};
+  Object.entries(HP).forEach(([k,y])=>{g+=`<rect x="231" y="${y-4}" width="9" height="8" fill="#0d2a47"/>`+T(226,y+4,k==='GND'?'GND':'D'+k,{a:'end',fs:10.5,fill:'#dbe8f6'});});
+  [['5V',380],['GND',398],['GND',416],['Vin',434]].forEach(([k,y])=>{g+=`<rect x="40" y="${y-4}" width="9" height="8" fill="#0d2a47"/>`+T(54,y+4,k,{fs:10.5,fill:k==='Vin'?'#ffd28a':'#dbe8f6',w:k==='Vin'?700:400});});
+  g+=T(140,292,'Arduino',{a:'middle',fs:15,fill:'#fff',w:600})+T(140,310,'Uno',{a:'middle',fs:15,fill:'#fff',w:600});
+  g+=T(140,500,'no barrel jack',{a:'middle',fs:10,fill:'#9fc0e3'});
+  // 9V battery (bottom-left), clip leads into Vin / GND
+  g+=`<rect x="70" y="538" width="104" height="52" rx="5" fill="#e8742a"/><rect x="70" y="538" width="24" height="52" fill="#2f2f2f"/>`+T(136,570,'9V',{a:'middle',fs:15,fill:'#fff',w:700});
+  g+=wire([[40,434],[32,434],[32,554],[70,554]],K.red);
+  g+=wire([[40,416],[24,416],[24,574],[70,574]],K.blk);
+  g+=T(184,560,'clip leads → Vin (+)',{fs:10.5,fill:'#a3281c',w:600})+T(184,574,'and GND (−) by jumper',{fs:10.5,fill:'#6b6a64'});
+  g+=`<circle cx="32" cy="494" r="9" fill="#e11d48"/>`+T(32,498,'!',{a:'middle',fs:12,fill:'#fff',w:800});
+  // 5V + GND rail jumpers (outer lanes)
+  g+=wire([[40,380],[8,380],[8,612],[374,612]],K.red,{dots:[[374,612]]});
+  g+=wire([[40,398],[16,398],[16,600],[388,600]],K.blk,{dots:[[388,600]]});
+  // chip + links
+  g+=chipSVG(334);
+  g+=wire([[374,136],[686,136]],K.red,{w:2.2,dots:[[374,136],[686,136]]});
+  g+=wire([[388,148],[672,148]],K.blk,{w:2.2,dots:[[388,148],[672,148]]});
+  g+=wire([[480,py1(1)],[374,py1(1)]],K.red,{w:2.2,dots:[[374,py1(1)]]});
+  g+=wire([[580,py1(1)],[686,py1(1)]],K.red,{w:2.2,dots:[[686,py1(1)]]});
+  g+=wire([[580,py1(8)],[686,py1(8)]],K.red,{w:2.2,dots:[[686,py1(8)]]});
+  g+=wire([[580,py1(4)],[672,py1(4)]],K.blk,{w:2.2,dots:[[672,py1(4)]]});
+  // 6xAA
+  g+=`<rect x="462" y="860" width="120" height="50" rx="5" fill="#3a3a3a"/>`;
+  for(let i=0;i<3;i++) g+=`<rect x="${468+i*38}" y="866" width="32" height="38" rx="3" fill="#6a6a6a"/>`;
+  g+=T(476,854,'+',{a:'middle',fs:12,fill:K.amb,w:700})+T(570,854,'−',{a:'middle',fs:12,fill:'#2b2b2b',w:700})+T(522,930,'6×AA pack',{a:'middle',fs:11,fill:'#6b6a64'});
+  g+=wire([[476,860],[476,py1(8)],[480,py1(8)]],K.amb,{w:3});
+  g+=wire([[570,860],[570,776],[672,776]],K.blk,{dots:[[672,776]]});
+  // signals
+  g+=wire([[240,372],[480,py1(2)]],K.org);
+  g+=wire([[240,390],[324,390],[324,py1(7)],[480,py1(7)]],K.yel);
+  g+=wire([[240,336],[300,336],[300,300],[724,300],[724,py1(2)],[580,py1(2)]],K.tea);
+  g+=wire([[240,354],[312,354],[312,316],[712,316],[712,py1(7)],[580,py1(7)]],K.pur);
+  // motors: channel A (left half)
+  if(tri){
+    g+=wire([[480,py1(3)],[442,py1(3)],[442,836],[190,836],[190,860]],K.red);
+    g+=wire([[480,py1(6)],[456,py1(6)],[456,922],[190,922],[190,910]],K.blk);
+    g+=mot(190,'RL','rear');
+    g+=T(190,952,'Channel A: rear-left only',{a:'middle',fs:11,fill:'#b45309',w:600});
+  } else {
+    g+=wire([[480,py1(3)],[442,py1(3)],[442,836],[190,836]],K.red,{dots:[[280,836],[190,836]]});
+    g+=wire([[190,836],[190,860]],K.red)+wire([[280,836],[280,860]],K.red);
+    g+=wire([[480,py1(6)],[456,py1(6)],[456,922],[190,922]],K.blk,{dots:[[280,922],[190,922]]});
+    g+=wire([[190,910],[190,922]],K.blk)+wire([[280,910],[280,922]],K.blk);
+    g+=mot(190,'FL','front')+mot(280,'RL','rear');
+    g+=T(235,952,'Channel A: left pair',{a:'middle',fs:11,fill:'#b45309',w:600});
+  }
+  // channel B (right half)
+  g+=wire([[580,py1(3)],[752,py1(3)],[752,836],[910,836]],K.red,{dots:[[820,836],[910,836]]});
+  g+=wire([[820,836],[820,860]],K.red)+wire([[910,836],[910,860]],K.red);
+  g+=wire([[580,py1(6)],[740,py1(6)],[740,922],[910,922]],K.blk,{dots:[[820,922],[910,922]]});
+  g+=wire([[820,910],[820,922]],K.blk)+wire([[910,910],[910,922]],K.blk);
+  g+= tri ? mot(820,'F','centre')+mot(910,'RR','rear') : mot(820,'FR','front')+mot(910,'RR','rear');
+  g+=T(865,952,tri?'Channel B: front + rear-right':'Channel B: right pair',{a:'middle',fs:11,fill:'#6d28d9',w:600});
+  // HC-SR04 on header
+  g+=`<rect x="246" y="188" width="42" height="80" rx="4" fill="#23408e"/><circle cx="267" cy="209" r="14" fill="#c9ccd3" stroke="#8c919c"/><circle cx="267" cy="247" r="14" fill="#c9ccd3" stroke="#8c919c"/>`+T(140,158,'HC-SR04 in D11–GND',{fs:11,fill:'#23408e',w:600})+`<line x1="250" y1="162" x2="262" y2="186" stroke="#23408e" stroke-width="1"/>`;
+  // servo
+  g+=wire([[292,90],[292,290],[240,290]],K.srv);
+  g+=wire([[334,90],[334,150],[374,150]],K.red,{dots:[[374,150]]});
+  g+=wire([[320,90],[320,162],[388,162]],K.blk,{dots:[[388,162]]});
+  g+=`<rect x="286" y="40" width="90" height="50" rx="5" fill="#3558c9"/><circle cx="306" cy="60" r="9" fill="#e9e9e9"/>`+T(348,70,'SG90',{a:'middle',fs:12,fill:'#fff',w:600});
+  // side labels + test points
+  g+=T(425,288,'CHANNEL A',{a:'middle',fs:11,fill:'#b45309',w:700})+T(632,288,'CHANNEL B',{a:'middle',fs:11,fill:'#6d28d9',w:700});
+  const tp=(x,y)=>`<circle cx="${x}" cy="${y}" r="6" fill="none" stroke="#1f9d55" stroke-width="2"/>`+T(x,y-10,'TP',{a:'middle',fs:9.5,fill:'#1f7a45',w:600});
+  g+=tp(460,py1(3))+tp(466,py1(6))+tp(624,py1(3))+tp(624,py1(6));
+  return `<svg viewBox="0 0 980 965" role="img" aria-label="${tri?'Tricycle':'Four-wheel'} final wiring diagram">${g}</svg>`;
+}
+
+// ---------- top views ----------
+function top(cfg){
+  const tri=cfg==='tri', A='#b45309', B='#6d28d9';
+  let g=`<rect x="0" y="0" width="260" height="330" fill="${PAN}"/>`;
+  // forward arrow
+  g+=`<path d="M22 250 L22 70" stroke="#6b6a64" stroke-width="2"/><path d="M14 80 L22 64 L30 80 Z" fill="#6b6a64"/>`+T(34,74,'forward',{fs:10.5,fill:'#6b6a64'});
+  // chassis
+  const cy0=tri?118:84;
+  g+=`<rect x="78" y="${cy0}" width="104" height="${tri?172:196}" rx="8" fill="#dfe7ee" stroke="#9fb3c4" stroke-width="1.5"/>`;
+  g+=`<line x1="84" y1="${cy0+8}" x2="176" y2="${cy0+(tri?164:188)}" stroke="#9fb3c4" stroke-width="3"/><line x1="176" y1="${cy0+8}" x2="84" y2="${cy0+(tri?164:188)}" stroke="#9fb3c4" stroke-width="3"/>`;
+  const wheel=(x,y,c,l,side)=>`<rect x="${x}" y="${y}" width="16" height="54" rx="4" fill="${c}"/>`+(side?T(x-6,y+32,l,{a:'end',fs:11,fill:c,w:700}):T(x+8,y+70,l,{a:'middle',fs:11,fill:c,w:700}));
+  if(tri){
+    g+=`<rect x="120" y="${cy0-10}" width="20" height="16" rx="2" fill="#8a8f96"/>`; // front pad
+    g+=wheel(122,40,B,'F',1);
+    g+=wheel(52,212,A,'RL')+wheel(192,212,B,'RR');
+    g+=`<rect x="152" y="${cy0-4}" width="30" height="12" rx="2" fill="#23408e"/>`+T(186,cy0+6,'sensor',{fs:9.5,fill:'#23408e'});
+    g+=T(130,318,'Rear track widened, front wheel leads',{a:'middle',fs:10,fill:'#6b6a64'});
+  } else {
+    g+=wheel(58,96,A,'FL')+wheel(186,96,B,'FR')+wheel(58,214,A,'RL')+wheel(186,214,B,'RR');
+    g+=`<rect x="115" y="${cy0-6}" width="30" height="12" rx="2" fill="#23408e"/>`+T(130,cy0-12,'sensor',{a:'middle',fs:9.5,fill:'#23408e'});
+    g+=T(130,318,'Left pair = A, right pair = B',{a:'middle',fs:10,fill:'#6b6a64'});
+  }
+  return `<svg viewBox="0 0 260 330" role="img" aria-label="${tri?'Tricycle':'Four-wheel'} top view with motor channels">${g}</svg>`;
+}
+
+// ---------- Vin detail ----------
+function vin(){
+  let g=`<rect width="640" height="200" fill="${PAN}"/>`;
+  // barrel path (not present)
+  g+=`<rect x="30" y="30" width="70" height="40" rx="4" fill="none" stroke="#b9b6aa" stroke-dasharray="5 4"/>`+T(65,55,'jack',{a:'middle',fs:11,fill:'#9a978c'});
+  g+=`<path d="M100 50 L180 50" stroke="#b9b6aa" stroke-width="2" stroke-dasharray="5 4"/>`;
+  g+=`<path d="M180 38 L180 62 L204 50 Z" fill="#c8c5b9"/><line x1="206" y1="36" x2="206" y2="64" stroke="#c8c5b9" stroke-width="3"/>`+T(192,86,'protection diode',{a:'middle',fs:10.5,fill:'#9a978c'});
+  g+=`<path d="M206 50 L300 50 L300 100" stroke="#b9b6aa" stroke-width="2" stroke-dasharray="5 4" fill="none"/>`;
+  g+=T(30,20,'Barrel-jack path (not used)',{fs:11,fill:'#9a978c',w:600});
+  // Vin node + regulator
+  g+=`<circle cx="300" cy="120" r="6" fill="#d33a2c"/>`+T(312,114,'Vin',{fs:13,fill:'#a3281c',w:700});
+  g+=`<path d="M300 120 L420 120" stroke="#d33a2c" stroke-width="3"/><rect x="420" y="96" width="96" height="48" rx="5" fill="#2b2b2b"/>`+T(468,118,'5 V reg.',{a:'middle',fs:12,fill:'#fff',w:600})+T(468,134,'needs ≥ 7 V',{a:'middle',fs:10,fill:'#ccc'});
+  g+=`<path d="M516 120 L600 120" stroke="#d33a2c" stroke-width="3"/>`+T(604,124,'5V',{fs:12,fill:'#a3281c',w:700});
+  // 9V direct
+  g+=`<rect x="30" y="110" width="90" height="50" rx="5" fill="#e8742a"/><rect x="30" y="110" width="22" height="50" fill="#2f2f2f"/>`+T(86,141,'9V',{a:'middle',fs:14,fill:'#fff',w:700});
+  g+=`<path d="M120 124 L300 124" stroke="#d33a2c" stroke-width="3"/>`+T(210,116,'red jumper, straight in',{a:'middle',fs:11,fill:'#a3281c',w:600});
+  g+=`<path d="M120 148 L420 148 L420 176" stroke="#2b2b2b" stroke-width="3" fill="none"/>`+T(230,166,'black jumper → GND',{a:'middle',fs:11,fill:'#2b2b2b'});
+  g+=`<circle cx="318" cy="184" r="10" fill="#e11d48"/>`+T(318,189,'!',{a:'middle',fs:13,fill:'#fff',w:800})+T(334,189,'no diode on this path: polarity matters',{fs:11,fill:'#c8243f',w:600});
+  return `<svg viewBox="0 0 640 200" role="img" aria-label="Vin power path compared with the barrel jack">${g}</svg>`;
+}
+
+document.getElementById('schem4').innerHTML=schem('4wd');
+document.getElementById('schem3').innerHTML=schem('tri');
+document.getElementById('top4').innerHTML=top('4wd');
+document.getElementById('top3').innerHTML=top('tri');
+document.getElementById('vinsvg').innerHTML=vin();
+})();
+</script>
+</body>
+</html>
